@@ -1,0 +1,20 @@
+{
+    "name": "user/pure-php",
+    "autoload": {
+        "psr-4": {
+            "Core\\": "core/",
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ToeOoWaiYan",
+            "email": "toeoowaiyan4252@gmail.com"
+        }
+    ],
+    "require": {},
+    "scripts": {
+        "migrate": "php cli.php migrate",
+        "refresh": "php cli.php refresh"
+    }
+}

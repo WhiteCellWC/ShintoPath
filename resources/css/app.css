@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Serif+JP:wght@200..900&display=swap');
+
+.header {
+    font-family: "Noto Serif JP";
+}
+
+.text {
+    font-family: "Noto Sans JP";
+}
+
+.welcome-bg {
+    background: linear-gradient(to bottom right, #FE90B4, #E54F54);
+}
