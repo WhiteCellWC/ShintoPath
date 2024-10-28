@@ -1,5 +1,7 @@
 <?php
 
+use Core\Router;
+
 function basepath($path = null)
 {
     $basePath = __DIR__ . "/../";
@@ -39,7 +41,15 @@ function dd($value)
 function view($view, $attributes = [])
 {
     extract($attributes);
-    require(basepath("resources/views/$view"));
+    require basepath("resources/views/$view");
+}
+
+function route($name)
+{
+    $routes = Router::getRoutes();
+    return array_values(array_filter($routes, function ($route) use ($name) {
+        return $route['name'] === $name;
+    }))[0]['url'] ?? null;
 }
 
 // function parseURI($url)

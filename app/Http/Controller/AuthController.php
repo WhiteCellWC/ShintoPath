@@ -2,14 +2,19 @@
 
 namespace App\Http\Controller;
 
-use App\Models\Client;
-use App\Models\User;
+use App\Http\Requests\Auth\LoginRequest;
+use Core\Request;
 
 class AuthController
 {
     public function loginView()
     {
         return view('Auth/login.php');
+    }
+
+    public function login(LoginRequest $request)
+    {
+        dd($request->email);
     }
 
     public function registerView()
