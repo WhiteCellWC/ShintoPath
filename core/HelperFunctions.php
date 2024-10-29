@@ -1,6 +1,7 @@
 <?php
 
 use Core\Router;
+use Core\Session;
 
 function basepath($path = null)
 {
@@ -50,6 +51,16 @@ function route($name)
     return array_values(array_filter($routes, function ($route) use ($name) {
         return $route['name'] === $name;
     }))[0]['url'] ?? null;
+}
+
+function error($name)
+{
+    return Session::getError($name) ?? null;
+}
+
+function old($name)
+{
+    return Session::getOld($name) ?? null;
 }
 
 // function parseURI($url)

@@ -2,6 +2,7 @@
 
 use Core\Request;
 use Core\Router;
+use Core\Session;
 use Core\Validator;
 
 session_start();
@@ -48,7 +49,10 @@ if (is_array($action)) {
                     if (method_exists($requestClass, 'rules')) {
                         $rules = $requestClass->rules();
                         $validator = Validator::make($_REQUEST, $rules);
-                        dd($validator);
+                        if (!$validator) {
+                            Session::addOlds($_REQUEST);
+                            header('location: ' . $_SERVER['HTTP_REFERER']);
+                        }
                     }
                     $dependencies[] = $requestClass;
                 }
@@ -61,3 +65,5 @@ if (is_array($action)) {
 } else {
     call_user_func($action, $request);
 }
+
+Session::unflash();

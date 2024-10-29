@@ -19,6 +19,18 @@ switch ($command) {
         echo "Migrations refreshed successfully.\n";
         break;
 
+    case 'make':
+        switch ($argv[2]) {
+            case "request":
+                echo $argv[3];
+                break;
+
+            default:
+                echo "Unknown command: $command\n";
+                exit(1);
+        }
+        break;
+
     default:
         echo "Unknown command: $command\n";
         exit(1);

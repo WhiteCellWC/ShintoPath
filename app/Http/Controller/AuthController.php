@@ -3,6 +3,7 @@
 namespace App\Http\Controller;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use Core\Request;
 use Core\Validator;
 
@@ -23,7 +24,7 @@ class AuthController
         view('Auth/register.php');
     }
 
-    public function create(Request $request)
+    public function create(RegisterRequest $request)
     {
         dd($request);
     }
