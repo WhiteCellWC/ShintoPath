@@ -35,7 +35,6 @@ class QueryBuilder
         return App::resolve(Database::class)->query($sql)->fetchAll();
     }
 
-
     public function first()
     {
         $sql = "SELECT * FROM {$this->table}";

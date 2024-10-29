@@ -6,7 +6,7 @@ class Request
 {
     protected array $data;
 
-    public function __construct($request)
+    public function __construct($request, $rules = [])
     {
         $this->data = $request;
     }
@@ -14,5 +14,10 @@ class Request
     public function __get($key)
     {
         return $this->data[$key] ?? null;
+    }
+
+    public function all()
+    {
+        return $this->data;
     }
 }

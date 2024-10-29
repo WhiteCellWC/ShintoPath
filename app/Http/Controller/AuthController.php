@@ -4,21 +4,27 @@ namespace App\Http\Controller;
 
 use App\Http\Requests\Auth\LoginRequest;
 use Core\Request;
+use Core\Validator;
 
 class AuthController
 {
-    public function loginView()
+    public function login()
     {
         return view('Auth/login.php');
     }
 
-    public function login(LoginRequest $request)
+    public function authenticate(LoginRequest $request)
     {
-        dd($request->email);
+        dd($request);
     }
 
-    public function registerView()
+    public function register()
     {
         view('Auth/register.php');
+    }
+
+    public function create(Request $request)
+    {
+        dd($request);
     }
 }

@@ -4,11 +4,14 @@ use App\Http\Controller\AuthController;
 use Core\Router;
 
 Router::group(['middleware' => 'guest'], function () {
-    Router::get('/login', [AuthController::class, 'loginView'])->name('login.view');
 
-    Router::post('/login', [AuthController::class, 'login'])->name('login.authenticate');
+    Router::get('/login', [AuthController::class, 'login'])->name('login.view');
 
-    Router::get('/register', [AuthController::class, 'registerView'])->name('register.view');
+    Router::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
+
+    Router::get('/register', [AuthController::class, 'register'])->name('register.view');
+
+    Router::post('/register', [AuthController::class, 'create'])->name('register.create');
 });
 
 Router::get('/', [AuthController::class, 'register'])->name('home');
