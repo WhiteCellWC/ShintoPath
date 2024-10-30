@@ -29,6 +29,7 @@ class AuthController
     public function create(RegisterRequest $request)
     {
         $user = User::create(['email' => $request->email, 'name' => $request->name, 'password' => $request->password]);
-        dd($user);
+        Auth::attempt($user);
+        dd("hi");
     }
 }

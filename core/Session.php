@@ -4,6 +4,10 @@ namespace Core;
 
 class Session
 {
+    public static function setKey($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
     public static function flash($key, $value)
     {
         $_SESSION["_flash"][$key] = $value;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controller\AuthController;
+use App\Models\User;
 use Core\Router;
 
 Router::group(['middleware' => 'guest'], function () {
@@ -14,4 +15,7 @@ Router::group(['middleware' => 'guest'], function () {
     Router::post('/register', [AuthController::class, 'create'])->name('register.create');
 });
 
-Router::get('/', [AuthController::class, 'register'])->name('home');
+Router::get('/test', function () {
+    $users = User::where('name', 'ToeOo')->get();
+    dd($users);
+})->name('home');

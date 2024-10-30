@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Core\App;
 use Core\Database;
-use Core\QueryBuilder;
 
 class Model
 {
@@ -15,6 +14,10 @@ class Model
     protected array $hidden;
 
     protected array $cast;
+
+    protected array $whereClauses = [];
+
+    protected array $data;
 
     public function __construct(array $attributes = [])
     {
@@ -43,17 +46,26 @@ class Model
         return $this->table;
     }
 
-    public static function where($column = 'id', $value = null)
+    public static function where(string $column = 'id', $value = null)
     {
-        $instance = new static();
-        $queryBuilder = new QueryBuilder($instance->getTableName());
-
-        if (is_null($value)) {
+        if (!$value) {
             $value = $column;
-            $column = 'id';
+            $column = "id";
         }
 
-        return $queryBuilder->where($column, $value);
+        $instance = new static();
+        $instance->whereClauses[] = "$column = '$value'";
+        return $instance;
+    }
+
+    public function andWhere(string $column = 'id', $value = null)
+    {
+        if (!$value) {
+            $value = $column;
+            $column = "id";
+        }
+        $this->whereClauses[] = "$column = '$value'";
+        return $this;
     }
 
     public static function all()
@@ -62,6 +74,7 @@ class Model
         $sql = "SELECT * FROM {$instance->getTableName()}";
         return App::resolve(Database::class)->query($sql)->fetchAll();
     }
+
     public static function create(array $data = [])
     {
         $instance = new static();
@@ -85,5 +98,56 @@ class Model
         $user = $db->query("SELECT * FROM {$table} WHERE id = :id", ['id' => $lastInsertId])->fetch();
 
         return $user ? new static($user) : null;
+    }
+
+    public function first()
+    {
+        $table = $this->getTableName();
+        $sql = "SELECT * FROM $table";
+        if (!empty($this->whereClauses)) {
+            $sql .= " WHERE " . implode(' AND ', $this->whereClauses);
+        }
+        $this->data = App::resolve(Database::class)->query($sql)->fetch();
+        return $this;
+    }
+
+    public function __get($key)
+    {
+        return $this->data[$key] ?? null; // Access data properties
+    }
+
+    public function get()
+    {
+        $sql = "SELECT * FROM {$this->table}";
+        if (!empty($this->whereClauses)) {
+            $sql .= " WHERE " . implode(' AND ', $this->whereClauses);
+        }
+
+        $results = App::resolve(Database::class)->query($sql)->fetchAll();
+        $Collection = [];
+        foreach ($results as $model) {
+            $Collection[] = new static($model);
+        }
+        return $Collection;
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->data[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->data[$offset];
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        throw new \Exception("Not implemented");
+    }
+
+    public function offsetUnset($offset)
+    {
+        throw new \Exception("Not implemented");
     }
 }

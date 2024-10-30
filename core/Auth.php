@@ -6,13 +6,20 @@ use App\Models\User;
 
 class Auth
 {
-    public static function attempt(string | User $email, $password)
+    public static function attempt(string | User $user, $password = null)
     {
-        $db = App::resolve(Database::class);
-        if (gettype($email) === "string") {
-            $user = $db->query("SELECT * FROM users WHERE email = :email", ['email' => $email])->fetch();
+        $correctLoginCredentials = false;
+        if (gettype($user) === "string") {
+            $user = User::where('email', $user)->first();
+            $user_confidential = App::resolve(Database::class)->query("SELECT password FROM users WHERE email = :email", ['email' => $user->email])->fetch();
+            $correctLoginCredentials = password_verify($password, $user_confidential['password']);
+        } else {
+            $correctLoginCredentials = true;
         }
-        dd($user);
+
+        if($correctLoginCredentials) {
+            // Session::setKey();
+        }
     }
 
     public static function user() {}

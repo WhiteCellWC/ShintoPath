@@ -6,6 +6,5 @@ use App\Models\Model;
 
 class Shrine extends Model
 {
-
+    protected $fillable = [];
 }
-
