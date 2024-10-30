@@ -10,9 +10,19 @@ class Model
 {
     protected string $table;
 
-    public function __construct()
+    protected array $fillable;
+
+    protected array $hidden;
+
+    protected array $cast;
+
+    public function __construct(array $attributes = [])
     {
         $this->setDefaultTableName();
+
+        foreach ($attributes as $key => $value) {
+            if (!in_array($key, $this->hidden)) $this->{$key} = $value;
+        }
     }
 
     protected function setDefaultTableName()
@@ -51,5 +61,29 @@ class Model
         $instance = new static();
         $sql = "SELECT * FROM {$instance->getTableName()}";
         return App::resolve(Database::class)->query($sql)->fetchAll();
+    }
+    public static function create(array $data = [])
+    {
+        $instance = new static();
+        $table = $instance->getTableName();
+
+        $columns = implode(',', $instance->fillable);
+        $placeholders = implode(',', array_map(fn($param) => ":$param", $instance->fillable));
+
+        $sql = "INSERT INTO {$table} ({$columns}) VALUES ({$placeholders})";
+
+        foreach ($instance->cast as $key => $value) {
+            if ($value === "hashed") {
+                $data[$key] = password_hash($data[$key], PASSWORD_BCRYPT);
+            }
+        }
+
+        $db = App::resolve(Database::class)->query($sql, $data);
+
+        $lastInsertId = $db->lastInsertId();
+
+        $user = $db->query("SELECT * FROM {$table} WHERE id = :id", ['id' => $lastInsertId])->fetch();
+
+        return $user ? new static($user) : null;
     }
 }

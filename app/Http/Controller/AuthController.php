@@ -4,8 +4,8 @@ namespace App\Http\Controller;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use Core\Request;
-use Core\Validator;
+use App\Models\User;
+use Core\Auth;
 
 class AuthController
 {
@@ -16,16 +16,19 @@ class AuthController
 
     public function authenticate(LoginRequest $request)
     {
+        Auth::attempt($request->email, $request->password);
         dd($request);
     }
 
     public function register()
     {
-        view('Auth/register.php');
+
+        return view('Auth/register.php');
     }
 
     public function create(RegisterRequest $request)
     {
-        dd($request);
+        $user = User::create(['email' => $request->email, 'name' => $request->name, 'password' => $request->password]);
+        dd($user);
     }
 }

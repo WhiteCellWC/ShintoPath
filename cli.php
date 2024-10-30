@@ -6,6 +6,9 @@ if ($argc < 2) {
 }
 
 $command = $argv[1];
+if (str_contains($command, 'make')) {
+    [$command, $build] = explode(':', $argv[1]);
+}
 
 switch ($command) {
     case 'migrate':
@@ -14,15 +17,22 @@ switch ($command) {
         break;
 
     case 'refresh':
-        // Example: Running migration refresh logic
         require __DIR__ . '/database/migration_refresh.php';
         echo "Migrations refreshed successfully.\n";
         break;
 
     case 'make':
-        switch ($argv[2]) {
+        switch ($build) {
             case "request":
-                echo $argv[3];
+                require __DIR__ . '/app/Console/MakeRequest.php';
+                break;
+
+            case "controller":
+                require __DIR__ . '/app/Console/MakeController.php';
+                break;
+
+            case "model":
+                require __DIR__ . '/app/Console/MakeModel.php';
                 break;
 
             default:

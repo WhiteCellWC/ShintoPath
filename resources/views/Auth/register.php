@@ -6,10 +6,19 @@ ob_start();
 <div class="fixed top-0 left-0 right-0 bottom-0 -z-10 bg-black opacity-25"></div>
 <img src="./assets/sakura-branch.png" class="w-1/4 fixed bottom-0 right-0 translate-x-[10%] translate-y-[20%]" />
 
-<form method="POST" action="<?= route('register.create') ?>" class="text fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[40%] text-white px-8 py-10 bg-black bg-opacity-25 backdrop-blur border rounded-lg flex flex-col">
+<form method="POST" action="<?= route('register.create') ?>" class="text fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-[35%] text-white px-8 py-10 bg-black bg-opacity-25 backdrop-blur border rounded-lg flex flex-col">
     <img src="./assets/tori.png" style="width: 6rem;" class="absolute left-1/2 -translate-x-1/2 top-0 -translate-y-full" />
     <p class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 header welcome-bg py-2 px-4 rounded border text-xl whitespace-nowrap">Welcome!</p>
     <div class="flex items-center">
+        <label for="name" class="rounded-full bg-white p-2 flex items-center justify-center z-10" style="width: 3rem; height: 3rem;">
+            <img src="./assets/user.svg" class="opacity-75" />
+        </label>
+        <input id="name" name="name" type="name" value="<?= old("name") ?>" class="-translate-x-3 bg-[#969696] opacity-75 px-5 py-2 rounded-tr-full rounded-br-full placeholder:text-white placeholder:opacity-75" placeholder="Name" />
+    </div>
+    <?php if ($message = error('name')): ?>
+        <p class="text-red-500 text-[12px]"><?= $message ?></p>
+    <?php endif; ?>
+    <div class="flex items-center mt-3">
         <label for="email" class="rounded-full bg-white p-2 flex items-center justify-center z-10" style="width: 3rem; height: 3rem;">
             <img src="./assets/envelope-solid.svg" class="w-3/4 opacity-50" />
         </label>
