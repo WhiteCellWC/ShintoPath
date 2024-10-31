@@ -13,10 +13,10 @@ class User extends Model
     ];
 
     protected array $hidden = [
-        'password'
+        'password',
     ];
 
     protected array $cast = [
-        'password' => 'hashed'
+        'password' => 'hashed',
     ];
 }

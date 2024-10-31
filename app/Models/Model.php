@@ -130,24 +130,4 @@ class Model
         }
         return $Collection;
     }
-
-    public function offsetExists($offset)
-    {
-        return isset($this->data[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->data[$offset];
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        throw new \Exception("Not implemented");
-    }
-
-    public function offsetUnset($offset)
-    {
-        throw new \Exception("Not implemented");
-    }
 }

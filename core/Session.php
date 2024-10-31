@@ -8,9 +8,24 @@ class Session
     {
         $_SESSION[$key] = $value;
     }
+
+    public static function getKey($key)
+    {
+        return $_SESSION[$key];
+    }
     public static function flash($key, $value)
     {
         $_SESSION["_flash"][$key] = $value;
+    }
+
+    public static function with($key, $value)
+    {
+        $_SESSION["_flash"]["_with"] = [$key => $value];
+    }
+
+    public static function getWith()
+    {
+        return $_SESSION["_flash"]["_with"];
     }
 
     public static function addError($key, $value)

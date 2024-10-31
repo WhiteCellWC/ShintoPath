@@ -17,5 +17,5 @@ Router::group(['middleware' => 'guest'], function () {
 
 Router::get('/test', function () {
     $users = User::where('name', 'ToeOo')->get();
-    dd($users);
-})->name('home');
+    return redirect()->route('login.view')->with(['test' => 'success']);
+})->middleware('auth')->name('home');

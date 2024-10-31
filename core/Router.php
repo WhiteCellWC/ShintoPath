@@ -42,10 +42,17 @@ class Router
         return static::$routes;
     }
 
-    public static function match(string $method, string $url): callable|array|null
+    public static function matchWithURL(string $method, string $url): callable|array|null
     {
         return array_values(array_filter(static::$routes, function ($route) use ($method, $url) {
             return $route['method'] === $method && $route['url'] === $url;
+        }))[0] ?? null;
+    }
+
+    public static function matchWithName($name)
+    {
+        return array_values(array_filter(static::$routes, function ($route) use ($name) {
+            return $route['name'] === $name;
         }))[0] ?? null;
     }
 

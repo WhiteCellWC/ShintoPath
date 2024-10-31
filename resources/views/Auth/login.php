@@ -15,6 +15,9 @@ ob_start();
         </label>
         <input id="email" name="email" type="email" value="<?= old("email") ?>" class="-translate-x-3 bg-[#969696] opacity-75 px-5 py-2 rounded-tr-full rounded-br-full placeholder:text-white placeholder:opacity-75" placeholder="Email" />
     </div>
+    <?php
+    echo "<p>$test</p>";
+    ?>
     <?php if ($message = error('email')): ?>
         <p class="text-red-500 text-[12px]"><?= $message ?></p>
     <?php endif; ?>

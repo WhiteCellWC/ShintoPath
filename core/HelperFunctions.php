@@ -1,7 +1,9 @@
 <?php
 
+use Core\RedirectResponse;
 use Core\Router;
 use Core\Session;
+use Core\ViewResponse;
 
 function basepath($path = null)
 {
@@ -41,8 +43,7 @@ function dd($value)
 
 function view($view, $attributes = [])
 {
-    extract($attributes);
-    require basepath("resources/views/$view");
+    return new ViewResponse($view, $attributes);
 }
 
 function route($name)
@@ -61,6 +62,11 @@ function error($name)
 function old($name)
 {
     return Session::getOld($name) ?? null;
+}
+
+function redirect($url = '/')
+{
+    return new RedirectResponse($url);
 }
 
 // function parseURI($url)
